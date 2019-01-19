@@ -1,6 +1,6 @@
 package net.rubey.yoyocinema.data.entities
 
-data class MovieGenre(
+data class MovieGenreData(
     val id: Int,
     val name: String
 )
