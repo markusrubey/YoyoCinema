@@ -70,10 +70,10 @@ class MovieDetailsViewModel(
             isLoading = false,
             title = movie.originalTitle,
             homepage = movie.details?.homepage,
-            overview = movie.details?.overview,
+            overview = movie.overview,
             releaseDate = movie.releaseDate,
             votesAverage = movie.voteAverage,
-            backdropUrl = movie.backdropPath,
+            posterPath = movie.posterPath,
             genres = movie.details?.genres
         )
 

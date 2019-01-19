@@ -7,6 +7,6 @@ data class MovieDetailsViewState(
     var homepage: String? = null,
     var releaseDate: String? = null,
     var votesAverage: Double? = null,
-    var backdropUrl: String? = null,
+    var posterPath: String? = null,
     var genres: List<String>? = null
 )

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_movie_details.*
 import net.rubey.yoyocinema.App
 import net.rubey.yoyocinema.R
@@ -60,6 +60,10 @@ class MovieDetailsFragment : Fragment() {
 
     private fun showViewState(movieDetailsViewState: MovieDetailsViewState) {
         movieTitleTextView.text = movieDetailsViewState.title
+        movieOverviewTextView.text = movieDetailsViewState.overview
+        movieReleaseDateTextView.text = movieDetailsViewState.releaseDate
+
+        Picasso.get().load(movieDetailsViewState.posterPath).into(moviePosterImageView)
     }
 
     private fun showFavoriteState(favorite: Boolean) {
