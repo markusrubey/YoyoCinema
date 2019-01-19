@@ -1,11 +1,13 @@
 package net.rubey.yoyocinema.data.entities
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "movies")
 data class MovieData(
 
+    @PrimaryKey
     @SerializedName("id")
     val id: Int = -1,
 

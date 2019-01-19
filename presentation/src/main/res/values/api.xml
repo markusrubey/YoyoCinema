@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="api_key">Paste api key here</string>
+    <string name="api_base_url">https://api.themoviedb.org/3/</string>
+</resources>
