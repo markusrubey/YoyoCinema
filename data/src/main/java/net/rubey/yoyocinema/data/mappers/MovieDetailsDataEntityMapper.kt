@@ -5,8 +5,9 @@ import net.rubey.yoyocinema.domain.common.Mapper
 import net.rubey.yoyocinema.domain.entities.MovieDetailsEntity
 import net.rubey.yoyocinema.domain.entities.MovieEntity
 import net.rubey.yoyocinema.domain.entities.MovieGenreEntity
+import javax.inject.Inject
 
-class MovieDetailsDataEntityMapper : Mapper<MovieDetailsData, MovieEntity>() {
+class MovieDetailsDataEntityMapper @Inject constructor() : Mapper<MovieDetailsData, MovieEntity>() {
 
     override fun mapFrom(from: MovieDetailsData): MovieEntity {
         val movieEntity = MovieEntity(

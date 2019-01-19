@@ -13,6 +13,10 @@ class MoviesRepositoryImpl(
         localDataSource.saveMovie(movieEntity)
     }
 
+    override suspend fun removeMovie(movieEntity: MovieEntity) {
+        localDataSource.removeMovie(movieEntity)
+    }
+
     override suspend fun getMovie(movieId: Int): MovieEntity {
         val localMovieResult = localDataSource.getMovie(movieId)
 

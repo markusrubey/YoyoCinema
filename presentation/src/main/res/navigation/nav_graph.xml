@@ -27,6 +27,6 @@
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="net.rubey.yoyocinema.details.DetailsFragment"
+        android:name="net.rubey.yoyocinema.details.MovieDetailsFragment"
         android:label="fragment_details" />
 </navigation>

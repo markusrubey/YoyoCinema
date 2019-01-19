@@ -1,5 +1,6 @@
 package net.rubey.yoyocinema.di.modules
 
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import net.rubey.yoyocinema.data.repository.remote.MoviesApi
@@ -51,6 +52,7 @@ class NetworkModule(private val baseUrl: String, private val apiKey: String) {
         return Retrofit.Builder()
             .client(clientBuilder.build())
             .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .baseUrl(baseUrl)
             .build()
     }

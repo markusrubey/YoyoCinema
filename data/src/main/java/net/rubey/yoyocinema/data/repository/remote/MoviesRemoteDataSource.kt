@@ -15,6 +15,10 @@ class MoviesRemoteDataSource(private val api: MoviesApi) : MoviesDataSource {
         TODO("not implemented") // Out of scope.
     }
 
+    override suspend fun removeMovie(movieEntity: MovieEntity) {
+        TODO("not implemented")  // Out of scope.
+    }
+
     override suspend fun getMovie(movieId: Int): MovieEntity {
         return movieDetailsMapper.mapFrom(api.getMovie(movieId).await())
     }

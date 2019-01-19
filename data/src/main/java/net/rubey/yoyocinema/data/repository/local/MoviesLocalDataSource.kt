@@ -17,6 +17,10 @@ class MoviesLocalDataSource(
         dao.saveMovie(entityToDataMapper.mapFrom(movieEntity))
     }
 
+    override suspend fun removeMovie(movieEntity: MovieEntity) {
+        dao.removeMovie(entityToDataMapper.mapFrom(movieEntity))
+    }
+
     override suspend fun getMovie(movieId: Int): MovieEntity {
         return dataToEntityMapper.mapFrom(dao.getMovie(movieId) ?: MovieData())
     }

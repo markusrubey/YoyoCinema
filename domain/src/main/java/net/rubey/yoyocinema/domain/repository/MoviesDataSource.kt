@@ -6,6 +6,8 @@ interface MoviesDataSource {
 
     suspend fun saveMovie(movieEntity : MovieEntity)
 
+    suspend fun removeMovie(movieEntity : MovieEntity)
+
     suspend fun getMovie(movieId : Int) : MovieEntity
 
     suspend fun getMovies() : List<MovieEntity>

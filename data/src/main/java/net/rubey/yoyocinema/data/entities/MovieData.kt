@@ -42,5 +42,8 @@ data class MovieData(
     var releaseDate: String? = null,
 
     @SerializedName("overview")
-    var overview: String? = null
+    var overview: String? = null,
+
+    @SerializedName("favorite")
+    var favorite : Boolean = false
 )

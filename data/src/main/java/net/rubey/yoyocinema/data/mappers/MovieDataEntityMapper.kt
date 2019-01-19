@@ -3,8 +3,9 @@ package net.rubey.yoyocinema.data.mappers
 import net.rubey.yoyocinema.data.entities.MovieData
 import net.rubey.yoyocinema.domain.common.Mapper
 import net.rubey.yoyocinema.domain.entities.MovieEntity
+import javax.inject.Inject
 
-class MovieDataEntityMapper : Mapper<MovieData, MovieEntity>() {
+class MovieDataEntityMapper @Inject constructor() : Mapper<MovieData, MovieEntity>() {
     override fun mapFrom(from: MovieData): MovieEntity {
         return MovieEntity(
             id = from.id,
@@ -17,7 +18,8 @@ class MovieDataEntityMapper : Mapper<MovieData, MovieEntity>() {
             backdropPath = from.backdropPath,
             originalTitle = from.originalTitle,
             releaseDate = from.releaseDate,
-            overview = from.overview
+            overview = from.overview,
+            favorite = from.favorite
         )
     }
 }
