@@ -28,7 +28,7 @@ class MovieDetailsModule {
     }
 
     @Provides
-    fun provideMovieDetailsVMFactory(
+    fun provideMovieDetailsViewModelFactory(
         getMovieDetails: GetMovieDetails,
         saveFavoriteMovie: SaveFavoriteMovie,
         removeFavoriteMovie: RemoveFavoriteMovie,

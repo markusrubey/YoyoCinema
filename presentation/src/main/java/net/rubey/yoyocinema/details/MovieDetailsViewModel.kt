@@ -20,9 +20,9 @@ class MovieDetailsViewModel(
 
     var viewState: MutableLiveData<MovieDetailsViewState> = MutableLiveData()
     var favoriteState: MutableLiveData<Boolean> = MutableLiveData()
-    var errorState : MutableLiveData<Boolean> = MutableLiveData()
+    var errorState: MutableLiveData<Boolean> = MutableLiveData()
 
-    private var favoriteButtonClickJob : Job? = null
+    private var favoriteButtonClickJob: Job? = null
 
     lateinit var movieEntity: MovieEntity
 
@@ -35,8 +35,10 @@ class MovieDetailsViewModel(
             try {
                 movieEntity = getMovieDetails.execute(movieId)
                 withContext(Dispatchers.Main) {
+                    val movie = mapper.mapFrom(movieEntity)
                     updateErrorState(false)
-                    updateMovieDetails(mapper.mapFrom(movieEntity))
+                    updateMovieDetails(movie)
+                    updateFavoriteStatus(movie.favorite)
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {

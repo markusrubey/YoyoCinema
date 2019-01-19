@@ -39,7 +39,7 @@ class MovieDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (view.context.applicationContext as App).createDetailsComponent().inject(this)
+        (view.context.applicationContext as App).createDetailsComponent()?.inject(this)
 
         factory.movieId = 369972
         detailsViewModel = ViewModelProviders.of(this, factory).get(MovieDetailsViewModel::class.java)

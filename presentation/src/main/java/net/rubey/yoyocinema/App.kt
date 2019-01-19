@@ -5,6 +5,8 @@ import net.rubey.yoyocinema.di.AppComponent
 import net.rubey.yoyocinema.di.DaggerAppComponent
 import net.rubey.yoyocinema.di.details.MovieDetailsModule
 import net.rubey.yoyocinema.di.details.MovieDetailsSubComponent
+import net.rubey.yoyocinema.di.favorites.FavoriteMoviesComponent
+import net.rubey.yoyocinema.di.favorites.FavoriteMoviesModule
 import net.rubey.yoyocinema.di.modules.AppModule
 import net.rubey.yoyocinema.di.modules.DataModule
 import net.rubey.yoyocinema.di.modules.NetworkModule
@@ -14,6 +16,8 @@ class App : Application() {
     lateinit var appComponent: AppComponent
 
     private var movieDetailsComponent: MovieDetailsSubComponent? = null
+
+    private var favoriteMoviesComponent: FavoriteMoviesComponent? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -29,12 +33,21 @@ class App : Application() {
             .build()
     }
 
-    fun createDetailsComponent(): MovieDetailsSubComponent {
+    fun createDetailsComponent(): MovieDetailsSubComponent? {
         movieDetailsComponent = appComponent.plus(MovieDetailsModule())
-        return movieDetailsComponent!!
+        return movieDetailsComponent
     }
 
     fun releaseDetailsComponent() {
+        movieDetailsComponent = null
+    }
+
+    fun createFavoriteMoviesComponent(): FavoriteMoviesComponent? {
+        favoriteMoviesComponent = appComponent.plus(FavoriteMoviesModule())
+        return favoriteMoviesComponent
+    }
+
+    fun releaseFavoriteMoviesComponent() {
         movieDetailsComponent = null
     }
 }
