@@ -2,10 +2,7 @@ package net.rubey.yoyocinema.favorites
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import net.rubey.yoyocinema.domain.common.Mapper
 import net.rubey.yoyocinema.domain.entities.MovieEntity
 import net.rubey.yoyocinema.domain.usecases.GetFavoriteMovies
@@ -19,12 +16,19 @@ class FavoriteMoviesViewModel(
     var viewState: MutableLiveData<FavoriteMoviesViewState> = MutableLiveData()
     var errorState: MutableLiveData<Boolean> = MutableLiveData()
 
-    init {
-        viewState.value = FavoriteMoviesViewState(isLoading = true)
+    private var getFavoriteMoviesJob : Job? = null
+
+    override fun onCleared() {
+        super.onCleared()
+
+        getFavoriteMoviesJob?.cancel()
     }
 
     fun getFavoriteMovies() {
-        GlobalScope.launch {
+        viewState.value = FavoriteMoviesViewState(isLoading = true)
+
+        getFavoriteMoviesJob?.cancel()
+        getFavoriteMoviesJob = GlobalScope.launch {
             try {
                 val movies = getFavoriteMovies.execute().map {
                     mapper.mapFrom(it)
