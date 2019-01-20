@@ -12,9 +12,9 @@ class MovieSearchAdapter(private val clickListener: View.OnClickListener) :
 
     private val items = ArrayList<Movie>()
 
-    fun submitList(movies: List<Movie>) {
+    fun submitList(movies: List<Movie>?) {
         items.clear()
-        items.addAll(movies)
+        movies?.let(items::addAll)
         notifyDataSetChanged()
     }
 

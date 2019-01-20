@@ -83,10 +83,10 @@ class MovieSearchFragment : Fragment(), View.OnClickListener {
         Navigation.findNavController(view).navigate(R.id.action_searchFragment_to_detailsFragment, bundle)
     }
 
-    private fun showViewState(movieSearchViewState: MovieSearchViewState) {
-        movieSearchViewState.movies?.let {
-            movieSearchAdapter.submitList(it)
-        }
+    private fun showViewState(state: MovieSearchViewState) {
+        progressBar.visibility = if (state.isLoading) View.VISIBLE else View.INVISIBLE
+
+        movieSearchAdapter.submitList(state.movies)
     }
 
     private fun showKeyboard(show: Boolean) {

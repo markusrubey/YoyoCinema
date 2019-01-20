@@ -19,11 +19,9 @@ class MovieSearchViewModel(
     var viewState: MutableLiveData<MovieSearchViewState> = MutableLiveData()
     var errorState: MutableLiveData<Boolean> = MutableLiveData()
 
-    init {
-        viewState.value = MovieSearchViewState(isLoading = true)
-    }
-
     fun searchMovie(query: String) {
+        viewState.value = MovieSearchViewState(isLoading = true)
+
         GlobalScope.launch {
             try {
                 val movies = searchMovie.execute(query).map {
@@ -31,7 +29,6 @@ class MovieSearchViewModel(
                 }
                 withContext(Dispatchers.Main) {
                     val newViewState = viewState.value?.copy(
-                        isEmpty = movies.isEmpty(),
                         isLoading = false,
                         movies = movies
                     )
@@ -40,7 +37,7 @@ class MovieSearchViewModel(
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    viewState.value = viewState.value?.copy(isLoading = false, isEmpty = true)
+                    viewState.value = viewState.value?.copy(isLoading = false)
                     errorState.value = true
                 }
             }
