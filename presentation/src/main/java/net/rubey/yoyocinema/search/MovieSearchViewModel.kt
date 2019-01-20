@@ -2,10 +2,7 @@ package net.rubey.yoyocinema.search
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import net.rubey.yoyocinema.domain.common.Mapper
 import net.rubey.yoyocinema.domain.entities.MovieEntity
 import net.rubey.yoyocinema.domain.usecases.SearchMovie
@@ -19,10 +16,19 @@ class MovieSearchViewModel(
     var viewState: MutableLiveData<MovieSearchViewState> = MutableLiveData()
     var errorState: MutableLiveData<Boolean> = MutableLiveData()
 
+    private var searchMovieJob : Job? = null
+
+    override fun onCleared() {
+        super.onCleared()
+
+        searchMovieJob?.cancel()
+    }
+
     fun searchMovie(query: String) {
         viewState.value = MovieSearchViewState(isLoading = true)
 
-        GlobalScope.launch {
+        searchMovieJob?.cancel()
+        searchMovieJob = GlobalScope.launch {
             try {
                 val movies = searchMovie.execute(query).map {
                     mapper.mapFrom(it)
