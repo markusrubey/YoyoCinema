@@ -5,15 +5,25 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/moviePosterImageView"
-        android:layout_width="116dp"
-        android:layout_height="175dp"
-        android:layout_gravity="center"
-        android:layout_margin="16dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:background="@color/colorAccent" />
+    <FrameLayout
+        android:id="@+id/moviePosterContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/bg_movie_poster"
+        android:elevation="4dp"
+        android:foreground="?selectableItemBackground">
+
+        <ImageView
+            android:id="@+id/moviePosterImageView"
+            android:layout_width="116dp"
+            android:layout_height="175dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@color/colorAccent" />
+
+    </FrameLayout>
 
 </FrameLayout>

@@ -10,11 +10,19 @@
         android:id="@+id/searchMovieEditText"
         android:layout_width="0dp"
         android:layout_height="56dp"
+        android:background="@drawable/bg_movie_search_bar"
+        android:elevation="4dp"
         android:imeOptions="actionSearch"
         android:inputType="text"
+        android:paddingStart="22dp"
+        android:paddingEnd="22dp"
+        android:paddingBottom="8dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+        android:textColor="?colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Search Query" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -32,6 +40,8 @@
         android:id="@+id/searchMovieRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

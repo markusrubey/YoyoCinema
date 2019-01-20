@@ -75,9 +75,9 @@ class MovieDetailsFragment : Fragment() {
     private fun showFavoriteState(favorite: Boolean) {
         favoriteMovieButton.setImageResource(
             if (favorite) {
-                R.drawable.ic_favorite_black_24dp
+                R.drawable.ic_favorite_selected
             } else {
-                R.drawable.ic_favorite_border_black_24dp
+                R.drawable.ic_favorite
             }
         )
     }

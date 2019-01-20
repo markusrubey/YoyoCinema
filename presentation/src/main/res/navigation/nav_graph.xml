@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="net.rubey.yoyocinema.favorites.FavoriteMoviesFragment"
-        android:label="fragment_favorites">
+        android:label="Favorite Movies">
         <action
             android:id="@+id/action_favoritesFragment_to_searchFragment"
             app:destination="@+id/searchFragment" />
@@ -18,7 +18,7 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="net.rubey.yoyocinema.search.MovieSearchFragment"
-        android:label="fragment_search">
+        android:label="Search Movies">
         <action
             android:id="@+id/action_searchFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
@@ -26,7 +26,7 @@
     <fragment
         android:id="@+id/detailsFragment"
         android:name="net.rubey.yoyocinema.details.MovieDetailsFragment"
-        android:label="fragment_details" >
+        android:label="Movie Details" >
         <argument
             android:name="movieId"
             app:argType="integer"

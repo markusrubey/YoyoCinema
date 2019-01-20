@@ -47,7 +47,7 @@ class FavoriteMoviesFragment : Fragment(), View.OnClickListener {
         favoriteMoviesRecyclerView.layoutManager = GridLayoutManager(view.context, 3)
         favoriteMoviesRecyclerView.adapter = favoriteMoviesAdapter
 
-        button.setOnClickListener {
+        searchMovieButton.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_favoritesFragment_to_searchFragment)
         }
 

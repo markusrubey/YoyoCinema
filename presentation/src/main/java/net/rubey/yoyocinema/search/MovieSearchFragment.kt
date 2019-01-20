@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -75,6 +76,18 @@ class MovieSearchFragment : Fragment(), View.OnClickListener {
         super.onDestroy()
 
         App.releaseMovieSearchComponent()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        (activity as AppCompatActivity).supportActionBar?.elevation = 0f
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+
+        (activity as AppCompatActivity).supportActionBar?.elevation = 8f
     }
 
     override fun onClick(view: View) {

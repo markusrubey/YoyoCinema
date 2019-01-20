@@ -12,8 +12,9 @@ class MovieSearchViewHolder(
 ) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(movie: Movie) = with(itemView) {
-        moviePosterImageView.tag = movie.id
-        moviePosterImageView.setOnClickListener(clickListener)
+        moviePosterContainer.tag = movie.id
+        moviePosterContainer.setOnClickListener(clickListener)
+        moviePosterContainer.clipToOutline = true
 
         Picasso.get().load(movie.posterPath).into(moviePosterImageView)
     }
