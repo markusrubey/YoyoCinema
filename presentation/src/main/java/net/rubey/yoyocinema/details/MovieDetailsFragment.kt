@@ -13,11 +13,6 @@ import net.rubey.yoyocinema.App
 import net.rubey.yoyocinema.R
 import javax.inject.Inject
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 /**
  * A simple [Fragment] subclass.
  *
@@ -41,7 +36,7 @@ class MovieDetailsFragment : Fragment() {
 
         (view.context.applicationContext as App).createDetailsComponent()?.inject(this)
 
-        factory.movieId = 369972
+        factory.movieId = arguments?.getInt(MOVIE_ID) ?: -1
         detailsViewModel = ViewModelProviders.of(this, factory).get(MovieDetailsViewModel::class.java)
         detailsViewModel.viewState.observe(this, Observer(this::showViewState))
         detailsViewModel.favoriteState.observe(this, Observer(this::showFavoriteState))
@@ -74,5 +69,9 @@ class MovieDetailsFragment : Fragment() {
                 R.drawable.ic_favorite_border_black_24dp
             }
         )
+    }
+
+    companion object {
+        const val MOVIE_ID = "movieId"
     }
 }

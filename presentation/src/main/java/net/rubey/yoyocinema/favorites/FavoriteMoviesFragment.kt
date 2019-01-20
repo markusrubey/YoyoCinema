@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_favorites.*
 import net.rubey.yoyocinema.App
 import net.rubey.yoyocinema.R
+import net.rubey.yoyocinema.details.MovieDetailsFragment
 import javax.inject.Inject
 
 /**
@@ -54,13 +56,13 @@ class FavoriteMoviesFragment : Fragment(), View.OnClickListener {
     override fun onDestroyView() {
         super.onDestroyView()
 
-        (view?.context?.applicationContext as App).releaseDetailsComponent()
+        (view?.context?.applicationContext as App).releaseFavoriteMoviesComponent()
     }
 
     override fun onClick(view: View) {
         val movieId = view.tag as Int
-        // TODO: Pass movie id
-        Navigation.findNavController(view).navigate(R.id.action_favoritesFragment_to_detailsFragment)
+        val bundle = bundleOf(MovieDetailsFragment.MOVIE_ID to movieId)
+        Navigation.findNavController(view).navigate(R.id.action_favoritesFragment_to_detailsFragment, bundle)
     }
 
     private fun showViewState(favoriteMoviesViewState: FavoriteMoviesViewState) {

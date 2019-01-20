@@ -10,6 +10,8 @@ import net.rubey.yoyocinema.di.favorites.FavoriteMoviesModule
 import net.rubey.yoyocinema.di.modules.AppModule
 import net.rubey.yoyocinema.di.modules.DataModule
 import net.rubey.yoyocinema.di.modules.NetworkModule
+import net.rubey.yoyocinema.di.search.MovieSearchComponent
+import net.rubey.yoyocinema.di.search.MovieSearchModule
 
 class App : Application() {
 
@@ -18,6 +20,8 @@ class App : Application() {
     private var movieDetailsComponent: MovieDetailsSubComponent? = null
 
     private var favoriteMoviesComponent: FavoriteMoviesComponent? = null
+
+    private var movieSearchComponent: MovieSearchComponent? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -49,5 +53,14 @@ class App : Application() {
 
     fun releaseFavoriteMoviesComponent() {
         movieDetailsComponent = null
+    }
+
+    fun createMovieSearchComponent(): MovieSearchComponent? {
+        movieSearchComponent = appComponent.plus(MovieSearchModule())
+        return movieSearchComponent
+    }
+
+    fun releaseMovieSearchComponent() {
+        movieSearchComponent = null
     }
 }

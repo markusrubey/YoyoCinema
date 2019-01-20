@@ -8,6 +8,8 @@ import net.rubey.yoyocinema.di.favorites.FavoriteMoviesModule
 import net.rubey.yoyocinema.di.modules.AppModule
 import net.rubey.yoyocinema.di.modules.DataModule
 import net.rubey.yoyocinema.di.modules.NetworkModule
+import net.rubey.yoyocinema.di.search.MovieSearchComponent
+import net.rubey.yoyocinema.di.search.MovieSearchModule
 import javax.inject.Singleton
 
 @Singleton
@@ -21,4 +23,5 @@ import javax.inject.Singleton
 interface AppComponent {
     fun plus(movieDetailsModule: MovieDetailsModule): MovieDetailsSubComponent
     fun plus(favoriteMoviesModule: FavoriteMoviesModule): FavoriteMoviesComponent
+    fun plus(movieSearchModule: MovieSearchModule): MovieSearchComponent
 }
