@@ -65,11 +65,11 @@ class MovieDetailsFragment : Fragment() {
         movieReleaseDateTextView.visibility = contentViewsVisibility
         favoriteMovieButton.visibility = contentViewsVisibility
 
-        movieTitleTextView.text = state.title
-        movieOverviewTextView.text = state.overview
-        movieReleaseDateTextView.text = state.releaseDate
+        movieTitleTextView.text = state.movie?.title
+        movieOverviewTextView.text = state.movie?.overview
+        movieReleaseDateTextView.text = state.movie?.releaseDate
 
-        Picasso.get().load(state.posterPath).into(moviePosterImageView)
+        Picasso.get().load(state.movie?.posterPath).into(moviePosterImageView)
     }
 
     private fun showFavoriteState(favorite: Boolean) {

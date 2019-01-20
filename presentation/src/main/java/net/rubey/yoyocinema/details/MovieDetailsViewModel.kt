@@ -73,18 +73,10 @@ class MovieDetailsViewModel(
     }
 
     private fun updateMovieDetails(movie: Movie) {
-        val newViewState = viewState.value?.copy(
+        viewState.value = viewState.value?.copy(
             isLoading = false,
-            title = movie.originalTitle,
-            homepage = movie.details?.homepage,
-            overview = movie.overview,
-            releaseDate = movie.releaseDate,
-            votesAverage = movie.voteAverage,
-            posterPath = movie.posterPath,
-            genres = movie.details?.genres
+            movie = movie
         )
-
-        viewState.value = newViewState
     }
 
     private fun updateFavoriteStatus(isFavorite: Boolean) {

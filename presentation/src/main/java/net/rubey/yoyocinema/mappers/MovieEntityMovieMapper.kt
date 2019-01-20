@@ -36,7 +36,6 @@ class MovieEntityMovieMapper @Inject constructor(): Mapper<MovieEntity, Movie>()
         details.belongsToCollection = fromDetails.belongsToCollection
         details.budget = fromDetails.budget
         details.homepage = fromDetails.homepage
-        details.overview = fromDetails.overview
         details.revenue = fromDetails.revenue
         details.runtime = fromDetails.runtime
         details.status = fromDetails.status
