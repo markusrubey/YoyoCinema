@@ -16,10 +16,6 @@ import net.rubey.yoyocinema.R
 import net.rubey.yoyocinema.details.MovieDetailsFragment
 import javax.inject.Inject
 
-/**
- * A simple [Fragment] subclass.
- *
- */
 class FavoriteMoviesFragment : Fragment(), View.OnClickListener {
 
     @Inject

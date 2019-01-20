@@ -1,10 +1,10 @@
 package net.rubey.yoyocinema.di.search
 
 import dagger.Subcomponent
-import net.rubey.yoyocinema.search.SearchFragment
+import net.rubey.yoyocinema.search.MovieSearchFragment
 
 @MovieSearchScope
 @Subcomponent(modules = [MovieSearchModule::class])
 interface MovieSearchComponent {
-    fun inject(movieSearchFragment: SearchFragment)
+    fun inject(movieSearchFragment: MovieSearchFragment)
 }

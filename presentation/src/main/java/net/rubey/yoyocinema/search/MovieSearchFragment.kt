@@ -1,6 +1,5 @@
 package net.rubey.yoyocinema.search
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,12 +20,7 @@ import net.rubey.yoyocinema.R
 import net.rubey.yoyocinema.details.MovieDetailsFragment
 import javax.inject.Inject
 
-
-/**
- * A simple [Fragment] subclass.
- *
- */
-class SearchFragment : Fragment(), View.OnClickListener {
+class MovieSearchFragment : Fragment(), View.OnClickListener {
 
     @Inject
     lateinit var factory: MovieSearchViewModelFactory

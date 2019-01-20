@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="net.rubey.yoyocinema.search.SearchFragment"
+        android:name="net.rubey.yoyocinema.search.MovieSearchFragment"
         android:label="fragment_search">
         <action
             android:id="@+id/action_searchFragment_to_detailsFragment"
