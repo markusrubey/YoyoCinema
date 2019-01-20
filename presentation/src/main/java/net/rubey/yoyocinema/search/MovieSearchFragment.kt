@@ -51,14 +51,20 @@ class MovieSearchFragment : Fragment(), View.OnClickListener {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 searchViewModel.searchMovie(textView.text.toString())
                 searchMovieEditText.clearFocus()
-                showSoftKeyboard(false)
+                showKeyboard(false)
                 return@OnEditorActionListener true
             }
             false
         })
 
         searchMovieEditText.requestFocus()
-        showSoftKeyboard(true)
+        showKeyboard(true)
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        showKeyboard(false)
     }
 
     override fun onDestroyView() {
@@ -79,7 +85,7 @@ class MovieSearchFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun showSoftKeyboard(show: Boolean) {
+    private fun showKeyboard(show: Boolean) {
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         if (show) {
             imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0)
