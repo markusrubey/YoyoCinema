@@ -19,11 +19,20 @@ import javax.inject.Inject
 class FavoriteMoviesFragment : Fragment(), View.OnClickListener {
 
     @Inject
-    lateinit var factory: FavoriteMoviesViewModelFactory
+    lateinit var viewModelFactory: FavoriteMoviesViewModelFactory
 
-    private lateinit var favoriteViewModel: FavoriteMoviesViewModel
+    private lateinit var viewModel: FavoriteMoviesViewModel
 
     private val favoriteMoviesAdapter = FavoriteMoviesAdapter(this)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        App.createFavoriteMoviesComponent()?.inject(this)
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(FavoriteMoviesViewModel::class.java)
+        viewModel.viewState.observe(this, Observer(this::showViewState))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,24 +44,20 @@ class FavoriteMoviesFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (view.context.applicationContext as App).createFavoriteMoviesComponent()?.inject(this)
-
-        favoriteViewModel = ViewModelProviders.of(this, factory).get(FavoriteMoviesViewModel::class.java)
-        favoriteViewModel.viewState.observe(this, Observer(this::showViewState))
-        favoriteViewModel.getFavoriteMovies()
-
         favoriteMoviesRecyclerView.layoutManager = GridLayoutManager(view.context, 3)
         favoriteMoviesRecyclerView.adapter = favoriteMoviesAdapter
 
         button.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_favoritesFragment_to_searchFragment)
         }
+
+        viewModel.getFavoriteMovies()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
 
-        (view?.context?.applicationContext as App).releaseFavoriteMoviesComponent()
+        App.releaseFavoriteMoviesComponent()
     }
 
     override fun onClick(view: View) {

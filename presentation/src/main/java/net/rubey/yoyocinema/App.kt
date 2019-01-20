@@ -15,14 +15,6 @@ import net.rubey.yoyocinema.di.search.MovieSearchModule
 
 class App : Application() {
 
-    lateinit var appComponent: AppComponent
-
-    private var movieDetailsComponent: MovieDetailsSubComponent? = null
-
-    private var favoriteMoviesComponent: FavoriteMoviesComponent? = null
-
-    private var movieSearchComponent: MovieSearchComponent? = null
-
     override fun onCreate() {
         super.onCreate()
 
@@ -37,30 +29,41 @@ class App : Application() {
             .build()
     }
 
-    fun createDetailsComponent(): MovieDetailsSubComponent? {
-        movieDetailsComponent = appComponent.plus(MovieDetailsModule())
-        return movieDetailsComponent
-    }
+    companion object {
 
-    fun releaseDetailsComponent() {
-        movieDetailsComponent = null
-    }
+        private lateinit var appComponent: AppComponent
 
-    fun createFavoriteMoviesComponent(): FavoriteMoviesComponent? {
-        favoriteMoviesComponent = appComponent.plus(FavoriteMoviesModule())
-        return favoriteMoviesComponent
-    }
+        private var movieDetailsComponent: MovieDetailsSubComponent? = null
 
-    fun releaseFavoriteMoviesComponent() {
-        movieDetailsComponent = null
-    }
+        private var favoriteMoviesComponent: FavoriteMoviesComponent? = null
 
-    fun createMovieSearchComponent(): MovieSearchComponent? {
-        movieSearchComponent = appComponent.plus(MovieSearchModule())
-        return movieSearchComponent
-    }
+        private var movieSearchComponent: MovieSearchComponent? = null
 
-    fun releaseMovieSearchComponent() {
-        movieSearchComponent = null
+        fun createDetailsComponent(): MovieDetailsSubComponent? {
+            movieDetailsComponent = appComponent.plus(MovieDetailsModule())
+            return movieDetailsComponent
+        }
+
+        fun releaseDetailsComponent() {
+            movieDetailsComponent = null
+        }
+
+        fun createFavoriteMoviesComponent(): FavoriteMoviesComponent? {
+            favoriteMoviesComponent = appComponent.plus(FavoriteMoviesModule())
+            return favoriteMoviesComponent
+        }
+
+        fun releaseFavoriteMoviesComponent() {
+            movieDetailsComponent = null
+        }
+
+        fun createMovieSearchComponent(): MovieSearchComponent? {
+            movieSearchComponent = appComponent.plus(MovieSearchModule())
+            return movieSearchComponent
+        }
+
+        fun releaseMovieSearchComponent() {
+            movieSearchComponent = null
+        }
     }
 }

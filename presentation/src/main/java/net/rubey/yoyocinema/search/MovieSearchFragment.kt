@@ -23,11 +23,20 @@ import javax.inject.Inject
 class MovieSearchFragment : Fragment(), View.OnClickListener {
 
     @Inject
-    lateinit var factory: MovieSearchViewModelFactory
+    lateinit var viewModelFactory: MovieSearchViewModelFactory
 
-    private lateinit var searchViewModel: MovieSearchViewModel
+    private lateinit var viewModel: MovieSearchViewModel
 
     private val movieSearchAdapter = MovieSearchAdapter(this)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        App.createMovieSearchComponent()?.inject(this)
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MovieSearchViewModel::class.java)
+        viewModel.viewState.observe(this, Observer(this::showViewState))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,17 +48,12 @@ class MovieSearchFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (view.context.applicationContext as App).createMovieSearchComponent()?.inject(this)
-
-        searchViewModel = ViewModelProviders.of(this, factory).get(MovieSearchViewModel::class.java)
-        searchViewModel.viewState.observe(this, Observer(this::showViewState))
-
         searchMovieRecyclerView.layoutManager = GridLayoutManager(view.context, 3)
         searchMovieRecyclerView.adapter = movieSearchAdapter
 
         searchMovieEditText.setOnEditorActionListener(TextView.OnEditorActionListener { textView, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                searchViewModel.searchMovie(textView.text.toString())
+                viewModel.searchMovie(textView.text.toString())
                 searchMovieEditText.clearFocus()
                 showKeyboard(false)
                 return@OnEditorActionListener true
@@ -67,10 +71,10 @@ class MovieSearchFragment : Fragment(), View.OnClickListener {
         showKeyboard(false)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
 
-        (view?.context?.applicationContext as App).releaseMovieSearchComponent()
+        App.releaseMovieSearchComponent()
     }
 
     override fun onClick(view: View) {
@@ -88,9 +92,9 @@ class MovieSearchFragment : Fragment(), View.OnClickListener {
     private fun showKeyboard(show: Boolean) {
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         if (show) {
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0)
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
         } else {
-            imm.hideSoftInputFromWindow(searchMovieEditText.windowToken,0)
+            imm.hideSoftInputFromWindow(searchMovieEditText.windowToken, 0)
         }
     }
 }

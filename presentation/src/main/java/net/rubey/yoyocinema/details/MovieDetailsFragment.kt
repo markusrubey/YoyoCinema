@@ -13,16 +13,21 @@ import net.rubey.yoyocinema.App
 import net.rubey.yoyocinema.R
 import javax.inject.Inject
 
-/**
- * A simple [Fragment] subclass.
- *
- */
 class MovieDetailsFragment : Fragment() {
 
     @Inject
-    lateinit var factory: MovieDetailsViewModelFactory
+    lateinit var viewModelFactory: MovieDetailsViewModelFactory
 
-    private lateinit var detailsViewModel: MovieDetailsViewModel
+    private lateinit var viewModel: MovieDetailsViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        App.createDetailsComponent()?.inject(this)
+
+        viewModelFactory.movieId = arguments?.getInt(MOVIE_ID) ?: -1
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MovieDetailsViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,23 +39,19 @@ class MovieDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (view.context.applicationContext as App).createDetailsComponent()?.inject(this)
-
-        factory.movieId = arguments?.getInt(MOVIE_ID) ?: -1
-        detailsViewModel = ViewModelProviders.of(this, factory).get(MovieDetailsViewModel::class.java)
-        detailsViewModel.viewState.observe(this, Observer(this::showViewState))
-        detailsViewModel.favoriteState.observe(this, Observer(this::showFavoriteState))
-        detailsViewModel.getMovieDetails()
+        viewModel.viewState.observe(this, Observer(this::showViewState))
+        viewModel.favoriteState.observe(this, Observer(this::showFavoriteState))
+        viewModel.getMovieDetails()
 
         favoriteMovieButton.setOnClickListener {
-            detailsViewModel.favoriteButtonClicked()
+            viewModel.favoriteButtonClicked()
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
 
-        (view?.context?.applicationContext as App).releaseDetailsComponent()
+        App.releaseDetailsComponent()
     }
 
     private fun showViewState(movieDetailsViewState: MovieDetailsViewState) {
