@@ -54,12 +54,22 @@ class MovieDetailsFragment : Fragment() {
         App.releaseDetailsComponent()
     }
 
-    private fun showViewState(movieDetailsViewState: MovieDetailsViewState) {
-        movieTitleTextView.text = movieDetailsViewState.title
-        movieOverviewTextView.text = movieDetailsViewState.overview
-        movieReleaseDateTextView.text = movieDetailsViewState.releaseDate
+    private fun showViewState(state: MovieDetailsViewState) {
+        val progressViewsVisibility = if (state.isLoading) View.VISIBLE else View.INVISIBLE
+        val contentViewsVisibility = if (state.isLoading) View.INVISIBLE else View.VISIBLE
 
-        Picasso.get().load(movieDetailsViewState.posterPath).into(moviePosterImageView)
+        progressBar.visibility = progressViewsVisibility
+        moviePosterImageView.visibility = contentViewsVisibility
+        movieTitleTextView.visibility = contentViewsVisibility
+        movieOverviewTextView.visibility = contentViewsVisibility
+        movieReleaseDateTextView.visibility = contentViewsVisibility
+        favoriteMovieButton.visibility = contentViewsVisibility
+
+        movieTitleTextView.text = state.title
+        movieOverviewTextView.text = state.overview
+        movieReleaseDateTextView.text = state.releaseDate
+
+        Picasso.get().load(state.posterPath).into(moviePosterImageView)
     }
 
     private fun showFavoriteState(favorite: Boolean) {
