@@ -66,9 +66,7 @@ class FavoriteMoviesFragment : Fragment(), View.OnClickListener {
         Navigation.findNavController(view).navigate(R.id.action_favoritesFragment_to_detailsFragment, bundle)
     }
 
-    private fun showViewState(favoriteMoviesViewState: FavoriteMoviesViewState) {
-        favoriteMoviesViewState.movies?.let {
-            favoriteMoviesAdapter.submitList(it)
-        }
+    private fun showViewState(state: FavoriteMoviesViewState) {
+        favoriteMoviesAdapter.submitList(state.movies)
     }
 }

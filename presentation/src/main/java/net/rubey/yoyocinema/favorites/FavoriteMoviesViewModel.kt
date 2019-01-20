@@ -31,7 +31,6 @@ class FavoriteMoviesViewModel(
                 }
                 withContext(Dispatchers.Main) {
                     val newViewState = viewState.value?.copy(
-                        isEmpty = movies.isEmpty(),
                         isLoading = false,
                         movies = movies
                     )
@@ -40,7 +39,7 @@ class FavoriteMoviesViewModel(
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    viewState.value = viewState.value?.copy(isLoading = false, isEmpty = true)
+                    viewState.value = viewState.value?.copy(isLoading = false)
                     errorState.value = true
                 }
             }
