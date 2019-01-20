@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
 import net.rubey.yoyocinema.domain.common.Mapper
+import net.rubey.yoyocinema.domain.common.Result
 import net.rubey.yoyocinema.domain.entities.MovieEntity
 import net.rubey.yoyocinema.domain.usecases.GetFavoriteMovies
 import net.rubey.yoyocinema.entities.Movie
@@ -16,7 +17,7 @@ class FavoriteMoviesViewModel(
     var viewState: MutableLiveData<FavoriteMoviesViewState> = MutableLiveData()
     var errorState: MutableLiveData<Boolean> = MutableLiveData()
 
-    private var getFavoriteMoviesJob : Job? = null
+    private var getFavoriteMoviesJob: Job? = null
 
     override fun onCleared() {
         super.onCleared()
@@ -29,24 +30,30 @@ class FavoriteMoviesViewModel(
 
         getFavoriteMoviesJob?.cancel()
         getFavoriteMoviesJob = GlobalScope.launch {
-            try {
-                val movies = getFavoriteMovies.execute().map {
-                    mapper.mapFrom(it)
-                }
-                withContext(Dispatchers.Main) {
-                    val newViewState = viewState.value?.copy(
-                        isLoading = false,
-                        movies = movies
-                    )
-                    viewState.value = newViewState
-                    errorState.value = null
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    viewState.value = viewState.value?.copy(isLoading = false)
-                    errorState.value = true
-                }
+            val result = getFavoriteMovies.execute()
+            when (result) {
+                is Result.Success -> processFavoriteMovies(result.value)
+                is Result.Error -> processError()
             }
+        }
+    }
+
+    private suspend fun processFavoriteMovies(result: List<MovieEntity>) {
+        withContext(Dispatchers.Main) {
+            val movies = result.map(mapper::mapFrom)
+            val newViewState = viewState.value?.copy(
+                isLoading = false,
+                movies = movies
+            )
+            viewState.value = newViewState
+            errorState.value = null
+        }
+    }
+
+    private suspend fun processError() {
+        withContext(Dispatchers.Main) {
+            viewState.value = viewState.value?.copy(isLoading = false)
+            errorState.value = true
         }
     }
 }

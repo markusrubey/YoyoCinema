@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
 import net.rubey.yoyocinema.domain.common.Mapper
+import net.rubey.yoyocinema.domain.common.Result
 import net.rubey.yoyocinema.domain.entities.MovieEntity
 import net.rubey.yoyocinema.domain.usecases.SearchMovie
 import net.rubey.yoyocinema.entities.Movie
@@ -14,9 +15,8 @@ class MovieSearchViewModel(
 ) : ViewModel() {
 
     var viewState: MutableLiveData<MovieSearchViewState> = MutableLiveData()
-    var errorState: MutableLiveData<Boolean> = MutableLiveData()
 
-    private var searchMovieJob : Job? = null
+    private var searchMovieJob: Job? = null
 
     override fun onCleared() {
         super.onCleared()
@@ -29,24 +29,26 @@ class MovieSearchViewModel(
 
         searchMovieJob?.cancel()
         searchMovieJob = GlobalScope.launch {
-            try {
-                val movies = searchMovie.execute(query).map {
-                    mapper.mapFrom(it)
-                }
-                withContext(Dispatchers.Main) {
-                    val newViewState = viewState.value?.copy(
-                        isLoading = false,
-                        movies = movies
-                    )
-                    viewState.value = newViewState
-                    errorState.value = null
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    viewState.value = viewState.value?.copy(isLoading = false)
-                    errorState.value = true
-                }
+            val result = searchMovie.execute(query)
+            when (result) {
+                is Result.Success -> processMovieSearchResult(result.value)
+                is Result.Error -> processMovieSearchError()
             }
+        }
+    }
+
+    private suspend fun processMovieSearchResult(result: List<MovieEntity>) {
+        withContext(Dispatchers.Main) {
+            viewState.value = viewState.value?.copy(
+                isLoading = false,
+                movies = result.map(mapper::mapFrom)
+            )
+        }
+    }
+
+    private suspend fun processMovieSearchError() {
+        withContext(Dispatchers.Main) {
+            viewState.value = viewState.value?.copy(isLoading = false)
         }
     }
 }

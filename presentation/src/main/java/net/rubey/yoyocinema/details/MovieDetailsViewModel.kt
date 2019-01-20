@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
 import net.rubey.yoyocinema.domain.common.Mapper
+import net.rubey.yoyocinema.domain.common.Result
 import net.rubey.yoyocinema.domain.entities.MovieEntity
 import net.rubey.yoyocinema.domain.usecases.GetMovieDetails
 import net.rubey.yoyocinema.domain.usecases.RemoveFavoriteMovie
@@ -20,7 +21,6 @@ class MovieDetailsViewModel(
 
     var viewState: MutableLiveData<MovieDetailsViewState> = MutableLiveData()
     var favoriteState: MutableLiveData<Boolean> = MutableLiveData()
-    var errorState: MutableLiveData<Boolean> = MutableLiveData()
 
     private var getFavoriteMovieJob: Job? = null
     private var favoriteMovieJob: Job? = null
@@ -39,51 +39,58 @@ class MovieDetailsViewModel(
 
         getFavoriteMovieJob?.cancel()
         getFavoriteMovieJob = GlobalScope.launch {
-            try {
-                movieEntity = getMovieDetails.execute(movieId)
-                withContext(Dispatchers.Main) {
-                    val movie = mapper.mapFrom(movieEntity)
-                    updateErrorState(false)
-                    updateMovieDetails(movie)
-                    updateFavoriteStatus(movie.favorite)
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    updateErrorState(true)
-                }
+            val result = getMovieDetails.execute(movieId)
+            when (result) {
+                is Result.Success -> processMovieDetails(result.value)
+                is Result.Error -> processMovieDetailsError()
             }
+        }
+    }
+
+    private suspend fun processMovieDetails(result: MovieEntity) {
+        withContext(Dispatchers.Main) {
+            movieEntity = result
+            val movie = mapper.mapFrom(movieEntity)
+            viewState.value = viewState.value?.copy(
+                isLoading = false,
+                movie = movie
+            )
+            favoriteState.value = movie.favorite
+        }
+    }
+
+    private suspend fun processMovieDetailsError() {
+        withContext(Dispatchers.Main) {
+            viewState.value = viewState.value?.copy(
+                isLoading = false,
+                movie = null
+            )
         }
     }
 
     fun favoriteButtonClicked() {
         favoriteMovieJob?.cancel()
         favoriteMovieJob = GlobalScope.launch {
-            val isFavorite = favoriteState.value == true
-
-            if (isFavorite) {
+            val result = if (favoriteState.value == true) {
                 removeFavoriteMovie.execute(movieEntity)
             } else {
                 saveFavoriteMovie.execute(movieEntity)
             }
 
-            withContext(Dispatchers.Main) {
-                updateFavoriteStatus(!isFavorite)
+            when (result) {
+                is Result.Success -> processMovieFavorite(result.value)
+                is Result.Error -> processMovieFavoriteError()
             }
         }
     }
 
-    private fun updateMovieDetails(movie: Movie) {
-        viewState.value = viewState.value?.copy(
-            isLoading = false,
-            movie = movie
-        )
+    private suspend fun processMovieFavorite(isFavorite: Boolean) {
+        withContext(Dispatchers.Main) {
+            favoriteState.value = isFavorite
+        }
     }
 
-    private fun updateFavoriteStatus(isFavorite: Boolean) {
-        favoriteState.value = isFavorite
-    }
-
-    private fun updateErrorState(error: Boolean) {
-        errorState.value = error
+    private suspend fun processMovieFavoriteError() {
+        // TODO
     }
 }
