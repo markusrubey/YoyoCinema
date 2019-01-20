@@ -22,16 +22,23 @@ class MovieDetailsViewModel(
     var favoriteState: MutableLiveData<Boolean> = MutableLiveData()
     var errorState: MutableLiveData<Boolean> = MutableLiveData()
 
-    private var favoriteButtonClickJob: Job? = null
+    private var getFavoriteMovieJob: Job? = null
+    private var favoriteMovieJob: Job? = null
 
     lateinit var movieEntity: MovieEntity
 
-    init {
-        viewState.value = MovieDetailsViewState(isLoading = true)
+    override fun onCleared() {
+        super.onCleared()
+
+        getFavoriteMovieJob?.cancel()
+        favoriteMovieJob?.cancel()
     }
 
     fun getMovieDetails() {
-        GlobalScope.launch {
+        viewState.value = MovieDetailsViewState(isLoading = true)
+
+        getFavoriteMovieJob?.cancel()
+        getFavoriteMovieJob = GlobalScope.launch {
             try {
                 movieEntity = getMovieDetails.execute(movieId)
                 withContext(Dispatchers.Main) {
@@ -49,8 +56,8 @@ class MovieDetailsViewModel(
     }
 
     fun favoriteButtonClicked() {
-        favoriteButtonClickJob?.cancel()
-        favoriteButtonClickJob = GlobalScope.launch {
+        favoriteMovieJob?.cancel()
+        favoriteMovieJob = GlobalScope.launch {
             val isFavorite = favoriteState.value == true
 
             if (isFavorite) {
