@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/favoritesFragment">
 
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="net.rubey.yoyocinema.favorites.FavoriteMoviesFragment"
-        android:label="Favorite Movies">
+        android:label="Favorite Movies"
+        tools:layout="@layout/fragment_favorite_movies">
         <action
             android:id="@+id/action_favoritesFragment_to_searchFragment"
             app:destination="@+id/searchFragment" />
@@ -18,7 +20,8 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="net.rubey.yoyocinema.search.MovieSearchFragment"
-        android:label="Search Movies">
+        android:label="Search Movies"
+        tools:layout="@layout/fragment_movie_search">
         <action
             android:id="@+id/action_searchFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
@@ -26,10 +29,11 @@
     <fragment
         android:id="@+id/detailsFragment"
         android:name="net.rubey.yoyocinema.details.MovieDetailsFragment"
-        android:label="Movie Details" >
+        android:label="Movie Details"
+        tools:layout="@layout/fragment_movie_details">
         <argument
             android:name="movieId"
-            app:argType="integer"
-            android:defaultValue="-1" />
+            android:defaultValue="-1"
+            app:argType="integer" />
     </fragment>
 </navigation>

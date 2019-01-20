@@ -45,6 +45,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchMovieEditText" />
+        app:layout_constraintTop_toBottomOf="@id/searchMovieEditText"
+        tools:listitem="@layout/item_search_movie" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
