@@ -16,7 +16,6 @@ class NetworkModule(private val baseUrl: String, private val apiKey: String) {
     @Singleton
     @Provides
     fun provideInterceptors(): ArrayList<Interceptor> {
-
         val interceptors = arrayListOf<Interceptor>()
 
         val apiKeyInterceptor = Interceptor { chain ->
@@ -41,16 +40,23 @@ class NetworkModule(private val baseUrl: String, private val apiKey: String) {
 
     @Singleton
     @Provides
-    fun provideRetrofit(interceptors: ArrayList<Interceptor>): Retrofit {
-
+    fun provideHttpClient(interceptors: ArrayList<Interceptor>): OkHttpClient {
         val clientBuilder = OkHttpClient.Builder()
+
         if (interceptors.isNotEmpty()) {
             interceptors.forEach { interceptor ->
                 clientBuilder.addInterceptor(interceptor)
             }
         }
+
+        return clientBuilder.build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRetrofit(client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .client(clientBuilder.build())
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .baseUrl(baseUrl)
