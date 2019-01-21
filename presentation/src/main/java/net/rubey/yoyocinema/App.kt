@@ -54,7 +54,7 @@ class App : Application() {
         }
 
         fun releaseFavoriteMoviesComponent() {
-            movieDetailsComponent = null
+            favoriteMoviesComponent = null
         }
 
         fun createMovieSearchComponent(): MovieSearchComponent? {
